@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import type { Product } from "../../app/models/product";
+
 import Grid2 from "@mui/material/Grid2";
 import {
   Button,
@@ -13,21 +12,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useFetchProductDetailsQuery } from "./catalogApi";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
 
-  useEffect(() => {
-    fetch(`https://localhost:5001/api/products/${id}`).then((response) =>
-      response
-        .json()
-        .then((data) => setProduct(data))
-        .catch((error) => console.log(error))
-    );
-  }, [id]);
+  const { data: product, isLoading } = useFetchProductDetailsQuery(
+    id ? +id : 0
+  );
 
-  if (!product) return <div>Loading...</div>;
+  if (!product || isLoading) return <div>Loading...</div>;
 
   const productDetails = [
     { label: "Name", value: product.name },
@@ -42,7 +36,7 @@ export default function ProductDetails() {
       <Grid2 size={6}>
         <img
           src="{product?.pictureUrl}"
-          alt="{product.name}"
+          alt="{product.name }"
           style={{ width: "100%" }}
         />
       </Grid2>
