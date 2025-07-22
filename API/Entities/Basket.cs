@@ -9,6 +9,9 @@ public class Basket
     public required string BasketId { get; set; }
 
     public List<BasketItem> Items { get; set; } = [];
+    
+    public string? ClientSecret { get; set; }
+    public string? PaymentIntentId { get; set; }
 
     public void AddItem(Product product, int quantity)
     {
@@ -23,10 +26,10 @@ public class Basket
             Items.Add(new BasketItem
             {
                 Quantity = quantity,
-            Product = product,
-            ProductId = product.Id,
-            ProductBrand = product.Brand,
-            ProductPrice = product.Price
+                Product = product,
+                ProductId = product.Id,
+                ProductBrand = product.Brand,
+                ProductPrice = product.Price
             });
         }
         else
